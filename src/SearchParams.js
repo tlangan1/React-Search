@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import useBreedList from "./useBreedList";
-import Pet from "./Pet";
+import ListPets from "./ListPets";
+import FormInput from "./FormInput";
+import FormSelect from "./FormSelect";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
@@ -41,58 +43,26 @@ const SearchParams = () => {
           requestPets();
         }}
       >
-        <label htmlFor="state">
-          state
-          <input
-            id="state"
-            value={state}
-            placeholder="State"
-            onChange={updateState}
-          />
-        </label>
-        <label htmlFor="animal">
-          Animal
-          <select
-            id="animal"
-            value={animal}
-            onChange={updateAnimal}
-            onBlur={updateAnimal}
-          >
-            <option />
-            {ANIMALS.map((animal) => (
-              <option key={animal} value={animal}>
-                {animal}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label htmlFor="breed">
-          Breed
-          <select
-            id="breed"
-            value={breed}
-            onChange={updateBreed}
-            onBlur={updateBreed}
-          >
-            <option />
-            {breeds.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FormInput
+          inputName="state"
+          inputValue={state}
+          inputUpdateFunction={updateState}
+        />
+        <FormSelect
+          inputName="animal"
+          inputValue={animal}
+          inputUpdateFunction={updateAnimal}
+          choices={ANIMALS}
+        />
+        <FormSelect
+          inputName="breed"
+          inputValue={breed}
+          inputUpdateFunction={updateBreed}
+          choices={breeds}
+        />
         <button>Submit</button>
       </form>
-      {pets.map((pet) => (
-        <Pet
-          name={pet.name}
-          animal={pet.animal}
-          breed={pet.breed}
-          location={pet.city + ", " + pet.state}
-          key={pet.id}
-        />
-      ))}
+      <ListPets pets={pets} />
     </div>
   );
 
