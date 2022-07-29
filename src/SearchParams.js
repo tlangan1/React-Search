@@ -23,26 +23,24 @@ const SearchParams = () => {
   //     id: 65462536,
   //   };
 
+  // Also, the use of const on the primitive "state" values is reasonable since it signals that they can't be reassigned
+  // manually; although it is odd in a way since they obviously change value via their "set" functions.
+
   useEffect(() => {
     requestPets();
-  }, [state, animal, breed]); //eslint-disable-line react-hooks/exhaustive-deps
 
-  async function requestPets() {
-    const url = `http://pets-v2.dev-apis.com/pets?animal=${animal}&state=${state}&breed=${breed}`;
-    const res = await fetch(url);
-    const json = await res.json();
+    async function requestPets() {
+      const url = `http://pets-v2.dev-apis.com/pets?animal=${animal}&state=${state}&breed=${breed}`;
+      const res = await fetch(url);
+      const json = await res.json();
 
-    setPets(json.pets);
-  }
+      setPets(json.pets);
+    }
+  }, [state, animal, breed]);
 
   return (
     <div className="search-params">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          requestPets();
-        }}
-      >
+      <form>
         <FormInput
           inputName="state"
           inputValue={state}
@@ -60,7 +58,6 @@ const SearchParams = () => {
           inputUpdateFunction={updateBreed}
           choices={breeds}
         />
-        <button>Submit</button>
       </form>
       <ListPets pets={pets} />
     </div>
